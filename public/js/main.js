@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     progressValueElement.textContent = value.toFixed(2);
 
     // 2. プログレスバーを更新 (最大25分と仮定)
-    const maxTime = 25;
+    const maxTime = 50;
     const progressPercentage = Math.min((value / maxTime) * 100, 100);
     progressBarElement.style.width = `${progressPercentage}%`;
 

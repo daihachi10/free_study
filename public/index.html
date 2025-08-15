@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>リアルタイム・アナライザー (Node.js ver.)</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>REAL-TIME ANALYZER</h1>
+      </header>
+      <main>
+        <div class="card card-large">
+          <h2>CURRENT PROGRESS (min)</h2>
+          <p id="progress-value" class="large-text">--</p>
+        </div>
+        <div class="card">
+          <h2>PROGRESS BAR</h2>
+          <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>PROGRESS HISTORY</h2>
+          <canvas id="progressChart"></canvas>
+        </div>
+      </main>
+    </div>
+
+    <!-- 外部ライブラリの読み込み -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Node.jsサーバーから自動配信 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- 自作JavaScriptファイルの読み込み -->
+    <script src="/js/main.js"></script>
+  </body>
+</html>

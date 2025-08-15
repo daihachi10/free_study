@@ -1,0 +1,116 @@
+/* Google Fontsからモダンなフォントをインポート */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+/* --- 変数定義 --- */
+:root {
+  --bg-color: #f4f7f9;
+  --card-bg-color: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #000000;
+  --border-color: #e2e8f0;
+  --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+/* --- 基本スタイル --- */
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 20px;
+  display: grid; /* 中央配置のためのモダンな手法 */
+  place-items: center;
+  min-height: calc(100vh - 40px);
+}
+
+.container {
+  width: 95%;
+  max-width: 900px;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px; /* 角を大きく丸める */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  padding: 24px 32px;
+}
+
+header h1 {
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em; /* 文字間を少し詰める */
+  margin-bottom: 32px;
+}
+
+/* --- レイアウト --- */
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px); /* 少し浮き上がるエフェクト */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-large {
+  grid-column: 1 / -1; /* 2カラム分を占有 */
+}
+
+/* --- カード内の要素 --- */
+h2 {
+  color: var(--text-secondary);
+  margin-top: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  text-transform: uppercase; /* 大文字に */
+  letter-spacing: 0.05em;
+}
+
+.large-text {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 10px 0;
+  line-height: 1;
+}
+
+/* --- プログレスバー --- */
+.progress-bar-container {
+  width: 100%;
+  background-color: var(--bg-color);
+  border-radius: 999px; /* 角を完全に丸めてカプセル型に */
+  height: 16px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 999px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* --- グラフのスタイル調整 --- */
+#progressChart {
+  width: 100% !important;
+  height: 250px !important;
+  color: #000 !important; /* グラフのテキスト色を黒に */
+}

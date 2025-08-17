@@ -9,7 +9,7 @@ const path = require("path");
 // --- ★★★ 環境に合わせて必ず変更してください ★★★ ---
 // micro:bitが接続されているCOMポート番号をデバイスマネージャーで確認
 // (Linuxの場合は /dev/ttyACM0, Windowsの場合は COM3 など)
-const COM_PORT_PATH = "COM3";
+const COM_PORT_PATH = "/dev/ttyACM0";
 
 const BAUD_RATE = 115200;
 // ------------------------------------------------

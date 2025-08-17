@@ -3,12 +3,44 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
+const fs = require("fs");
+const path = require("path");
 
 // --- ★★★ 環境に合わせて必ず変更してください ★★★ ---
 // micro:bitが接続されているCOMポート番号をデバイスマネージャーで確認
+// (Linuxの場合は /dev/ttyACM0, Windowsの場合は COM3 など)
 const COM_PORT_PATH = "COM3";
+
 const BAUD_RATE = 115200;
 // ------------------------------------------------
+
+// --- データ保存設定 ---
+const HISTORY_FILE = path.join(__dirname, "study_history.json");
+let historyData = [];
+
+// 履歴ファイルを読み込む関数
+function loadHistory() {
+  try {
+    if (fs.existsSync(HISTORY_FILE)) {
+      const fileContent = fs.readFileSync(HISTORY_FILE, "utf8");
+      historyData = JSON.parse(fileContent);
+      console.log(`履歴を ${HISTORY_FILE} から読み込みました。`);
+    } else {
+      console.log("履歴ファイルが見つかりません。新しい履歴を開始します。");
+    }
+  } catch (err) {
+    console.error("履歴ファイルの読み込みエラー:", err);
+  }
+}
+
+// 履歴ファイルを保存する関数
+function saveHistory() {
+  try {
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(historyData, null, 2));
+  } catch (err) {
+    console.error("履歴ファイルの書き込みエラー:", err);
+  }
+}
 
 const app = express();
 const server = http.createServer(app);
@@ -48,9 +80,17 @@ function connectToSerialPort() {
     try {
       const progressValue = parseFloat(line);
       if (!isNaN(progressValue)) {
+        const newData = {
+          value: progressValue,
+          timestamp: new Date().toISOString(),
+        };
+        // 履歴に追加して保存
+        historyData.push(newData);
+        saveHistory();
+
         // 接続している全てのWebクライアントに 'new_data' というイベント名でデータを送信
-        io.emit("new_data", { value: progressValue });
-        console.log(`受信: ${progressValue} -> ブラウザに送信しました。`);
+        io.emit("new_data", newData);
+        console.log(`受信: ${progressValue} -> 保存・ブラウザに送信しました。`);
       }
     } catch (e) {
       console.error("データ処理エラー:", e);
@@ -72,12 +112,18 @@ function connectToSerialPort() {
 // Webクライアントが接続してきたときの処理
 io.on("connection", (socket) => {
   console.log("Webクライアントが接続しました。");
+  // 接続時に、まずこれまでの履歴を送信
+  socket.emit("history", historyData);
+
   socket.on("disconnect", () => {
     console.log("Webクライアントが切断しました。");
   });
 });
 
-// 最初にシリアルポートへの接続を開始
+// 最初に履歴を読み込む
+loadHistory();
+
+// 次にシリアルポートへの接続を開始
 connectToSerialPort();
 
 const PORT = 3002;

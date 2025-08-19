@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // HTML要素を取得
   const progressValueElement = document.getElementById("progress-value");
+  const totalProgressValueElement = document.getElementById(
+    "total-progress-value"
+  );
   const progressBarElement = document.getElementById("progress-bar");
+
+  // 合計時間を保持する変数
+  let totalFocusedTime = 0;
 
   // --- Chart.js（グラフ）の初期設定 ---
   const ctx = document.getElementById("progressChart").getContext("2d");
@@ -66,6 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
     progressBarElement.style.width = `${progressPercentage}%`;
   };
 
+  // 合計時間を更新・表示する関数
+  const updateTotalUI = () => {
+    totalProgressValueElement.textContent = totalFocusedTime.toFixed(2);
+  };
+
   // --- WebSocketイベントリスナー ---
 
   // サーバーから履歴データ ('history') を受信したときの処理 (接続時に一度だけ)
@@ -75,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // グラフのデータを準備
     const labels = historyData.map((data) => formatTime(data.timestamp));
     const values = historyData.map((data) => data.value);
+
+    // 合計時間を計算
+    totalFocusedTime = values.reduce((sum, current) => sum + current, 0);
 
     // グラフにデータを一括設定
     progressChart.data.labels = labels;
@@ -86,6 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const lastData = historyData[historyData.length - 1];
       updateUI(lastData.value);
     }
+    // 合計時間UIを更新
+    updateTotalUI();
   });
 
   // サーバーから新しいデータ ('new_data') を受信したときの処理
@@ -94,6 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // UIを更新
     updateUI(data.value);
+
+    // 合計時間を加算してUIを更新
+    totalFocusedTime += data.value;
+    updateTotalUI();
 
     // グラフに新しいデータを追加
     const timeLabel = formatTime(data.timestamp);

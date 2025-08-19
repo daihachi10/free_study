@@ -113,3 +113,29 @@ h2 {
   width: 100% !important;
   height: 250px !important;
 }
+
+/* --- レスポンシブ対応 (スマートフォンなど) --- */
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 16px;
+  }
+
+  main {
+    grid-template-columns: 1fr; /* 1カラムレイアウトに変更 */
+    gap: 16px;
+  }
+
+  .large-text {
+    font-size: 3.5rem; /* スマートフォン用に少し小さく */
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+  }
+}

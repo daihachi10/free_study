@@ -76,10 +76,11 @@ h2 {
   margin-bottom: 16px;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 12px;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.8rem; /* 14px */
   font-weight: 600;
   text-transform: uppercase; /* 大文字に */
   letter-spacing: 0.05em;
+  line-height: 1.4;
 }
 
 .large-text {

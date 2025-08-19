@@ -1,4 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // PWAインストールボタンのロジック
+  const installButton = document.getElementById("install-button");
+  let deferredPrompt;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    // ブラウザのデフォルトのプロンプトを無効化
+    e.preventDefault();
+    // プロンプトを後で使えるように保存
+    deferredPrompt = e;
+    // インストールボタンを表示
+    installButton.hidden = false;
+  });
+
+  installButton.addEventListener("click", async () => {
+    if (deferredPrompt) {
+      // 保存しておいたプロンプトを表示
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      // プロンプトは一度しか使えないので、変数をクリア
+      deferredPrompt = null;
+      // ボタンを非表示に
+      installButton.hidden = true;
+    }
+  });
+
+  window.addEventListener("appinstalled", () => {
+    // アプリがインストールされたら、ボタンを非表示にし、プロンプトもクリア
+    installButton.hidden = true;
+    deferredPrompt = null;
+    console.log("PWA was installed");
+  });
+
   // サーバーのWebSocketに接続
   const socket = io();
 

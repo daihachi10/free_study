@@ -4,31 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>リアルタイム・アナライザー (Node.js ver.)</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="manifest" href="manifest.json" />
   </head>
   <body>
     <div class="container">
       <header>
         <h1>REAL-TIME ANALYZER<br>リアルタイム・アナライザー</h1>
+        <button id="install-button" class="install-button" hidden>アプリをインストール</button>
       </header>
       <main>
         <div class="card">
-          <h2>TOTAL FOCUSED TIME (min)<br>合計集中時間 (分)</h2>
+          <h2>TOTAL FOCUSED TIME (min)<br />合計集中時間 (分)</h2>
           <p id="total-progress-value" class="large-text">--</p>
         </div>
         <div class="card">
-          <h2>CURRENT PROGRESS (min)<br>現在の進捗 (分)</h2>
+          <h2>CURRENT PROGRESS (min)<br />現在の進捗 (分)</h2>
           <p id="progress-value" class="large-text">--</p>
         </div>
         <div class="card card-large">
-          <h2>PROGRESS BAR<br>進捗バー</h2>
+          <h2>PROGRESS BAR<br />進捗バー</h2>
           <div class="progress-bar-container">
             <div id="progress-bar" class="progress-bar"></div>
           </div>
         </div>
         <div class="card card-large">
-          <h2>PROGRESS HISTORY<br>進捗履歴</h2>
+          <h2>PROGRESS HISTORY<br />進捗履歴</h2>
           <canvas id="progressChart"></canvas>
         </div>
       </main>
@@ -40,14 +41,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- 自作JavaScriptファイルの読み込み -->
-    <script src="/js/main.js"></script>
+    <script src="js/main.js"></script>
 
     <!-- PWA サービスワーカーの登録 -->
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("/sw.js")
+            .register("sw.js")
             .then((registration) => {
               console.log(
                 "ServiceWorker registration successful with scope: ",

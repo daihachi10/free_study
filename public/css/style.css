@@ -41,7 +41,31 @@ header h1 {
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.025em; /* 文字間を少し詰める */
-  margin-bottom: 32px;
+  margin-bottom: 16px; /* ボタンとの間隔を調整 */
+}
+
+.install-button {
+  display: block;
+  margin: 0 auto 16px auto;
+  padding: 10px 20px;
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.install-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.install-button[hidden] {
+  display: none;
 }
 
 /* --- レイアウト --- */

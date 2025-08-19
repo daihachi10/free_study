@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>リアルタイム・アナライザー (Node.js ver.)</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="manifest" href="/manifest.json" />
   </head>
   <body>
     <div class="container">
@@ -40,5 +41,24 @@
 
     <!-- 自作JavaScriptファイルの読み込み -->
     <script src="/js/main.js"></script>
+
+    <!-- PWA サービスワーカーの登録 -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((registration) => {
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope
+              );
+            })
+            .catch((error) => {
+              console.log("ServiceWorker registration failed: ", error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

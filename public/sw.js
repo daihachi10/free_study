@@ -1,18 +1,25 @@
-self.addEventListener('install', (event) => {
-  console.log('Service Worker: A new version is installing...');
-  // Skip waiting to activate the new service worker immediately.
+const CACHE_NAME = "Analyzer";
+const urlsToCache = [
+  "/",
+  "/js/main.js",
+  "/index.html",
+  "https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js",
+  // アイコンファイルもキャッシュ対象に含める
+  "/icon-192x192.png",
+  "/icon-512x512.png",
+];
+
+self.addEventListener("install", (event) => {
+  // インストール完了後すぐにアクティブ化
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
-  console.log('Service Worker: Activating new version...');
-  // Take control of all clients immediately.
-  event.waitUntil(clients.claim());
+self.addEventListener("activate", (event) => {
+  // 他の古いSWがあってもすぐに置き換えられるように
+  clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-  // This is a basic fetch handler. 
-  // It doesn't provide offline functionality as requested.
-  // It just responds with the network request.
+self.addEventListener("fetch", (event) => {
+  // 常にネットワークから取得（キャッシュは使用しない）
   event.respondWith(fetch(event.request));
 });
